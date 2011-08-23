@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<project name="sf2" description="Handle sf2 tasks" default="">
+
+    <!-- ============================================  -->
+    <!-- Target: db                                    -->
+    <!-- ============================================  --> 
+    <target name="db:create" 
+            description="Create database using symfony2 console utility">
+        <sfconsole command="doctrine:database:create" />
+    </target>
+
+    <target name="db:drop" 
+            description="Drop database using symfony2 console utility">
+        <sfconsole command="doctrine:database:drop" force="true"/>
+    </target>
+    
+    <target name="db:migrate"
+            description="Create database schema (create tables) using symfony2 console utility">
+        <sfconsole command="doctrine:schema:create"/>
+    </target>
+
+    <target name="db:reset"
+            description="Drop database schema (drop tables) using symfony2 console utility">
+        <sfconsole command="doctrine:schema:drop" force="true"/>
+    </target>
+    
+    <target name="db:fixtures" 
+            description="Drop database schema (drop tables) using symfony2 console utility"
+            depends="rr:db:reset,rr:db:migrate">
+        <sfconsole command="doctrine:fixtures:load --append" />
+    </target>
+</project>

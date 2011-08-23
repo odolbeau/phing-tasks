@@ -2,13 +2,13 @@
 
 require_once "phing/Task.php";
 
-class MyRtexecTask extends Task {
+class RtexecTask extends Task {
 
     /**
      * The dir passed in the buildfile.
      */
     private $dir = null;
-    
+
     /**
      * The message passed in the buildfile.
      */
@@ -61,10 +61,7 @@ class MyRtexecTask extends Task {
         if ($this->dir !== null) {
             @chdir($currdir);
         }
-
     }
-
 }
 
 ?>
-

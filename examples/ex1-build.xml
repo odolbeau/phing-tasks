@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<project name="ex1" description=" " default="t1">
+    <import file="${project.basedir}/../base-build.xml" />
+    <import file="${project.basedir}/../sf2-build.xml" />
+    <target name="db:create" description="sdfsdf">
+        <echo msg="sdsdf ${phing.file.base}" />
+    </target>
+</project>

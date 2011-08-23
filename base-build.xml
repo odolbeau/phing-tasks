@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<project name="base" description=" ">
+    <php function="dirname" returnProperty="base.basedir">
+        <param value="${phing.file.base}"/>
+    </php>
+    <includepath classpath="${base.basedir}/lib" />
+    <taskdef name="checkdepends" classname="phing.tasks.CheckDependenciesTask" />
+    <taskdef name="sfconsole" classname="phing.tasks.SymfonyConsoleTask" />
+    <taskdef name="rtexec" classname="phing.tasks.RtexecTask" />
+</project>
