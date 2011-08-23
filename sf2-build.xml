@@ -27,7 +27,7 @@
     
     <target name="db:fixtures" 
             description="Drop database schema (drop tables) using symfony2 console utility"
-            depends="rr:db:reset,rr:db:migrate">
+            depends="db:reset,db:migrate">
         <sfconsole command="doctrine:fixtures:load --append" />
     </target>
 </project>
