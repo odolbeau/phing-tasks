@@ -14,7 +14,7 @@
             description="Drop database using symfony2 console utility">
         <sfconsole command="doctrine:database:drop" force="true"/>
     </target>
-    
+
     <target name="db:migrate"
             description="Create database schema (create tables) using symfony2 console utility">
         <sfconsole command="doctrine:schema:create"/>
@@ -30,4 +30,38 @@
             depends="db:reset,db:migrate">
         <sfconsole command="doctrine:fixtures:load --append" />
     </target>
+
+    <!-- ============================================  -->
+    <!-- Target: writable                              -->
+    <!-- ============================================  -->
+    <target name="writable" description="Ensure write permessions on required files and dirs">
+        <!-- To be able to use sudo without password prompt, add chmod to allowed cmds to be executed without password-->
+        <exec command="chmod -R 777 ${rr.app_web}/app/logs ${rr.app_web}/app/cache" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: Assets                                -->
+    <!-- ============================================  -->
+    <target name="assets" description="Build php bootstrap file">
+        <sfconsole command="assets:install --symlink ${rr.app_web}/web/" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: vendor                                -->
+    <!-- ============================================  -->
+
+    <target name="vendor:install:all" description="Install vendors in vendor dir by fecthing repos">
+        <rtexec command="php ${rr.app_web}/bin/vendors install" />
+    </target>
+
+    <target name="vendor:remove:all" description="Remove all vendors from vendor dir">
+        <rtexec command="sudo rm -r ${rr.vendor}/*" />
+    </target>
+
+    <target name="vendor:reset" description="Reset a ${vendor} foundable in deps file">
+        <fail unless="vendor" message="You must to define the ${vendor}"/>
+        <rtexec command="sudo rm -r ${rr.vendor}/${vendor}" />
+        <phingcall target="vendor:install:all" />
+    </target>
+
 </project>
