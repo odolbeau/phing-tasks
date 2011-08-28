@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
 <project name="base" description=" ">
+
     <php function="dirname" returnProperty="base.basedir">
         <param value="${phing.file.base}"/>
     </php>
@@ -8,4 +9,12 @@
     <taskdef name="checkdepends" classname="phing.tasks.CheckDependenciesTask" />
     <taskdef name="sfconsole" classname="phing.tasks.SymfonyConsoleTask" />
     <taskdef name="rtexec" classname="phing.tasks.RtexecTask" />
+
+    <!-- Tasks to be executed for upgrading the installer -->
+    <if><isset property="selfupdate" />
+        <then>
+        <exec command="git submodule update --init vendor/phing-tasks" checkreturn="true" />
+        <exec dir="vendor/phing-tasks" command="git pull --rebase origin master" checkreturn="true" />
+        </then>
+    </if>
 </project>
