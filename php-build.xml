@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<project name="php" description="" default="">
+    <target name="lint" description="Pass PhpLint on all .php files in ${dir}">
+        <phplint haltonfailure="true">
+            <fileset dir="${dir}">
+                <include name="**/*.php" />
+            </fileset>
+        </phplint>
+    </target>
+    <target name="test" description="Launch tests in ${dir} with ${configFile}">
+        <property name="configFile" value=""/>
+        <exec command="phpunit --colors --configuration ${configFile} ${args} ${dir}" passthru="true"/>
+    </target>
+    <target name="test:stats" description="Launch tests + Generate reports">
+        <mkdir dir="${build.dir}" />
+        <phingcall target="test">
+            <property name="args"
+                      value="--coverage-html ${build.dir}/coverage --log-junit ${build.dir}/junit.xml" />
+        </phingcall>
+    </target>
+</project>
