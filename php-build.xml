@@ -10,6 +10,7 @@
     </target>
     <target name="test" description="Launch tests in ${dir} with ${configFile}">
         <property name="configFile" value=""/>
+        <property name="args" value=""/>
         <exec command="phpunit --colors --configuration ${configFile} ${args} ${dir}" passthru="true"/>
     </target>
     <target name="test:stats" description="Launch tests + Generate reports">
