@@ -36,7 +36,7 @@
     <!-- ============================================  -->
     <target name="writable" description="Ensure write permessions on required files and dirs">
         <!-- To be able to use sudo without password prompt, add chmod to allowed cmds to be executed without password-->
-        <exec command="chmod -R 777 ${rr.app_web}/app/logs ${rr.app_web}/app/cache" />
+        <exec command="sudo chmod -R 777 ${rr.app_web}/app/logs ${rr.app_web}/app/cache" />
     </target>
 
     <!-- ============================================  -->
