@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<!-- To use use this file in sphinx project you have to define the following properties: -->
+<!-- docs.rootdir: path to the root of documentation -->
+<!-- textwidth: max line width -->
+<!-- langs: List of available language for your doc -->
+<project name="sphinx" description="Sphinx tasks" default="build:html:all">
+
+    <property name="sphinx.build" value="sphinx-build"/>
+    <property name="sphinx.opts" value="-c ${lang}"/>
+
+    <property name="docs.builddir" value="${docs.rootdir}/build"/>
+    <property name="doc.build_dir" value="${docs.builddir}/${lang}"/>
+    <property name="doc.src_dir" value="${docs.rootdir}/${lang}"/>
+
+    <target name="clean">
+        <exec command="rm -rf ${docs.builddir}" checkreturn="true"/>
+    </target>
+
+    <target name="build:pdf:lang" description="Build all docs in PDF for a specific ${lang}">
+        <exec command="${sphinx.build} ${sphinx.opts} -b latex ${doc.src_dir} ${doc.build_dir}/pdf" checkreturn="true" />
+        <exec dir="${doc.build_dir}/pdf" command="make all-pdf" checkreturn="true" logoutput="true" />
+    </target>
+
+    <target name="build:html:all" description="Build all ${langs}">
+        <foreach list="${langs}" param="lang" target="build:html:lang" />
+    </target>
+
+    <target name="build:html:lang" description="Build all docs for a specific ${lang}">
+        <exec command="${sphinx.build} ${sphinx.opts} -b html ${doc.src_dir} ${doc.build_dir}" checkreturn="true" />
+    </target>
+
+    <target name="build:html" description="Build ${doc} in ${lang}">
+        <exec command="${sphinx.build} ${sphinx.opts} -b html ${doc.src_dir}/${doc} ${doc.build_dir}/${doc}" checkreturn="true" />
+    </target>
+
+    <!-- CHECK STYLE TASKS -->
+
+    <target name="check:all" description="Style check AND lint for all ${langs}">
+        <foreach list="${langs}" param="lang" target="check:lang" />
+    </target>
+
+    <target name="check:lang"
+            depends="check:style:lang, check:lint:lang, check:link:lang"
+            description="Check style AND lint for a specific ${lang}">
+    </target>
+
+    <target name="check:style:lang"
+            description="Check style of .rst files for ${lang}">
+        <foreach param="filename" absparam="file" target="check:style">
+            <fileset dir="${lang}">
+                <include name="**/*.rst"/>
+            </fileset>
+        </foreach>
+    </target>
+
+    <target name="check:style" description="Check style of ${file}">
+        <exec command="sed -n '/\(.\)\{${textwidth}\}/p' ${file}" checkreturn="true"
+            outputProperty="output"/>
+        <if>
+            <not><equals arg1="${output}" arg2=""/></not>
+            <then>
+                <fail msg="Some lines in ${file} has a width > ${textwidth}" />
+            </then>
+        </if>
+    </target>
+
+    <target name="check:lint:lang" description="Check Code syntax for ${lang}">
+        <phplint>
+            <fileset dir="${doc.src_dir}">
+                <include name="**/*.php"/>
+            </fileset>
+        </phplint>
+    </target>
+
+    <target name="check:link:lang" description="Check links for ${lang}">
+        <exec command="${sphinx.build} ${sphinx.opts} -b linkcheck ${doc.src_dir} ${doc.build_dir}/cs"
+              logoutput="true"
+              checkreturn="true" />
+    </target>
+
+</project>
