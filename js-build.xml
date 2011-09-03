@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<project name="js" description="" default="">
+    <target name="lint" description="Pass JsLint on all .js files in ${dir}">
+    </target>
+    <target name="test" description="Launch tests in ${dir} with ${configFile}">
+        <exec command="java -jar ${jstestdriver} --config ${configFile} --tests all --browser open" passthru="true" />
+    </target>
+    <target name="server:start" description="Run JsTestDriver Server">
+        <exec command="java -jar ${jstestdriver} --browser open --port 9876" passthru="true"/>
+    </target>
+    <target name="server:test" description="Run JavaScript tests against the server">
+        <exec command="java -jar ${jstestdriver} --tests all --config ${configFile}" passthru="true"/>
+    </target>
+</project>
