@@ -4,13 +4,13 @@
 
     <!-- ============================================  -->
     <!-- Target: db                                    -->
-    <!-- ============================================  --> 
-    <target name="db:create" 
+    <!-- ============================================  -->
+    <target name="db:create"
             description="Create database using symfony2 console utility">
         <sfconsole command="doctrine:database:create" />
     </target>
 
-    <target name="db:drop" 
+    <target name="db:drop"
             description="Drop database using symfony2 console utility">
         <sfconsole command="doctrine:database:drop" force="true"/>
     </target>
@@ -24,8 +24,8 @@
             description="Drop database schema (drop tables) using symfony2 console utility">
         <sfconsole command="doctrine:schema:drop" force="true"/>
     </target>
-    
-    <target name="db:fixtures" 
+
+    <target name="db:fixtures"
             description="Drop database schema (drop tables) using symfony2 console utility"
             depends="db:reset,db:migrate">
         <sfconsole command="doctrine:fixtures:load --append" />
@@ -62,6 +62,14 @@
         <fail unless="vendor" message="You must to define the ${vendor}"/>
         <rtexec command="sudo rm -r ${rr.vendor}/${vendor}" />
         <phingcall target="vendor:install:all" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: Dependencies                          -->
+    <!-- ============================================  -->
+    <target name="depends" description="Check required system dependencies (PHP extenstion, OS packages) For sf2">
+        <checkdepends os="Linux" packages="git-core libexpat1-dev libcurl4-openssl-dev apache2 mysql-server libmysqld-dev php5 php5-curl php5-mysql php5-intl php5-sqlite" />
+        <checkdepends os="Darwin" packages="git-core php5 apache2 php5-iconv php5-intl php5-sqlite sqlite3" />
     </target>
 
 </project>
