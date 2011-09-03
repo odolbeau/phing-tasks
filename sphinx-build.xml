@@ -79,4 +79,6 @@
               checkreturn="true" />
     </target>
 
+    <target name="depends" description="Check required system dependencies for Sphinx">
+    </target>
 </project>

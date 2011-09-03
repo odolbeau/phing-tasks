@@ -1,0 +1,2 @@
+- Each *-build.xml file should have a 'depends' target which check system dependencies (Mac + Linux).
+  + The checkdepends task should support pip, php-module
