@@ -10,16 +10,29 @@ class SymfonyConsoleTask extends Task
   private $command = null;
 
   /**
+   * The console dir location.
+   */
+  private $dir = 'app/console';
+
+  /**
    * The force parameter passed in the buildfile.
    */
   private $force = false;
 
   /**
-   * The setter for the attribute "command"
+   * the setter for the attribute "command"
    */
-  public function setCommand($command)
+  public function setcommand($command)
   {
     $this->command = $command;
+  }
+
+  /**
+   * the setter for the attribute "dir"
+   */
+  public function setdir($dir)
+  {
+    $this->dir = $dir;
   }
 
   /**
@@ -49,7 +62,7 @@ class SymfonyConsoleTask extends Task
   private function _execCommand()
   {
     $output = array();
-    exec("php app/console $this->command " . (true === $this->force ? "--force" : ""), $output);
+    exec("php $this->dir/console $this->command " . (true === $this->force ? "--force" : ""), $output);
     echo implode("\n", $output);
   }
 }

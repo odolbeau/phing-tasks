@@ -7,17 +7,17 @@
     <!-- ============================================  -->
     <target name="db:create"
             description="Create database using symfony2 console utility">
-        <sfconsole command="doctrine:database:create" />
+            <sfconsole command="doctrine:database:create" dir="${app.dir}"/>
     </target>
 
     <target name="db:drop"
             description="Drop database using symfony2 console utility">
-        <sfconsole command="doctrine:database:drop" force="true"/>
+            <sfconsole command="doctrine:database:drop" force="true" dir="${app.dir}" />
     </target>
 
     <target name="db:migrate"
             description="Create database schema (create tables) using symfony2 console utility">
-        <sfconsole command="doctrine:schema:create"/>
+        <sfconsole command="doctrine:schema:create" dir="${app.dir}" />
     </target>
 
     <target name="db:reset"
@@ -28,7 +28,7 @@
     <target name="db:fixtures"
             description="Drop database schema (drop tables) using symfony2 console utility"
             depends="db:reset,db:migrate">
-        <sfconsole command="doctrine:fixtures:load --append" />
+        <sfconsole command="doctrine:fixtures:load --append" dir="${app.dir}"/>
     </target>
 
     <!-- ============================================  -->
@@ -36,14 +36,14 @@
     <!-- ============================================  -->
     <target name="writable" description="Ensure write permessions on required files and dirs">
         <!-- To be able to use sudo without password prompt, add chmod to allowed cmds to be executed without password-->
-        <exec command="sudo chmod -R 777 ${rr.app_web}/app/logs ${rr.app_web}/app/cache" />
+        <exec command="sudo chmod -R 777 ${proj.app_web}/app/logs ${proj.app_web}/app/cache" />
     </target>
 
     <!-- ============================================  -->
     <!-- Target: Assets                                -->
     <!-- ============================================  -->
     <target name="assets" description="Build php bootstrap file">
-        <sfconsole command="assets:install --symlink ${rr.app_web}/web/" />
+        <sfconsole command="assets:install --symlink ${proj.app_web}/web/" dir="${app.dir}" />
     </target>
 
     <!-- ============================================  -->
@@ -51,16 +51,16 @@
     <!-- ============================================  -->
 
     <target name="vendor:install:all" description="Install vendors in vendor dir by fecthing repos">
-        <rtexec command="php ${rr.app_web}/bin/vendors install" />
+        <rtexec command="php ${proj.app_web}/bin/vendors install" />
     </target>
 
     <target name="vendor:remove:all" description="Remove all vendors from vendor dir">
-        <rtexec command="sudo rm -r ${rr.vendor}/*" />
+        <rtexec command="sudo rm -r ${proj.vendor}/*" />
     </target>
 
     <target name="vendor:reset" description="Reset a ${vendor} foundable in deps file">
         <fail unless="vendor" message="You must to define the ${vendor}"/>
-        <rtexec command="sudo rm -r ${rr.vendor}/${vendor}" />
+        <rtexec command="sudo rm -r ${proj.vendor}/${vendor}" />
         <phingcall target="vendor:install:all" />
     </target>
 
@@ -71,5 +71,4 @@
         <checkdepends os="Linux" packages="git-core libexpat1-dev libcurl4-openssl-dev apache2 mysql-server libmysqld-dev php5 php5-curl php5-mysql php5-intl php5-sqlite" />
         <checkdepends os="Darwin" packages="git-core php5 apache2 php5-iconv php5-intl php5-sqlite sqlite3" />
     </target>
-
 </project>
