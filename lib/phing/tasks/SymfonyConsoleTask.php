@@ -62,8 +62,7 @@ class SymfonyConsoleTask extends Task
   private function _execCommand()
   {
     $output = array();
-    exec("php $this->dir/console $this->command " . (true === $this->force ? "--force" : ""), $output);
-    echo implode("\n", $output);
+    passthru("php app/console $this->command " . (true === $this->force ? "--force" : ""));
   }
 }
 
