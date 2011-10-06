@@ -68,7 +68,8 @@
     <!-- Target: Dependencies                          -->
     <!-- ============================================  -->
     <target name="depends" description="Check required system dependencies (PHP extenstion, OS packages) For sf2">
-        <checkdepends os="Linux" packages="git-core libexpat1-dev libcurl4-openssl-dev apache2 mysql-server libmysqld-dev php5 php5-curl php5-mysql php5-intl php5-sqlite" />
-        <checkdepends os="Darwin" packages="git-core php5 apache2 php5-iconv php5-intl php5-sqlite sqlite3" />
+        <checkdepends type="deb" packages="git-core libexpat1-dev libcurl4-openssl-dev apache2 mysql-server libmysqld-dev php5 php5-curl php5-mysql php5-intl php5-sqlite" />
+        <checkdepends type="macports" packages="git-core php5 apache2 php5-iconv php5-intl php5-sqlite sqlite3" />
+        <checkdepends type="pear" packages="phpunit/PHPUnit" />
     </target>
 </project>

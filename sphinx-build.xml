@@ -80,5 +80,8 @@
     </target>
 
     <target name="depends" description="Check required system dependencies for Sphinx">
+        <checkdepends type="macports" packages="py-pip" />
+        <checkdepends type="deb" packages="python-pip" />
+        <checkdepends type="pip" packages="Sphinx" />
     </target>
 </project>
