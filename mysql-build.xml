@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<project name="mysql" description="Handle mysql tasks" default="">
+    <target name="db:backup"
+        description="Make MySQL backup for ${databases} in ${dir}.">
+        <property name="options" value=""/>
+        <mkdir dir="${dir}" />
+        <tstamp />
+        <exec command="mysqldump -u${mysql.user} -p${mysql.passwd} ${options} --databases ${databases} &gt; ${dir}/backup-${DSTAMP}.sql"/>
+    </target>
+    <target name="db:user:add"
+        description="Add a new MySQL ${user} identified with ${passwd}.">
+        <exec command="echo &quot;CREATE USER '${user}'@'localhost' IDENTIFIED BY '${passwd}';&quot;| mysql -u${mysql.user} -p${mysql.passwd}"/>
+    </target>
+    <target name="db:user:remove"
+        description="Remove MySQL ${user} identified with ${passwd}.">
+        <exec command="echo &quot;DROP USER '${user}'@'localhost';&quot;| mysql -u${mysql.user} -p${mysql.passwd}"/>
+    </target>
+</project>
