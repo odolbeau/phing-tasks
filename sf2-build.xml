@@ -2,33 +2,35 @@
 
 <project name="sf2" description="Handle sf2 tasks" default="">
 
+    <property name="env" value="dev" />
+    
     <!-- ============================================  -->
     <!-- Target: db                                    -->
     <!-- ============================================  -->
     <target name="db:create"
             description="Create database using symfony2 console utility">
-            <sfconsole command="doctrine:database:create" dir="${app.dir}"/>
+            <sfconsole command="doctrine:database:create --env=${env}" dir="${app.dir}"/>
     </target>
 
     <target name="db:drop"
             description="Drop database using symfony2 console utility">
-            <sfconsole command="doctrine:database:drop" force="true" dir="${app.dir}" />
+            <sfconsole command="doctrine:database:drop --env=${env}" force="true" dir="${app.dir}" />
     </target>
 
     <target name="db:migrate"
             description="Create database schema (create tables) using symfony2 console utility">
-        <sfconsole command="doctrine:schema:create" dir="${app.dir}" />
+        <sfconsole command="doctrine:schema:create --env=${env}" dir="${app.dir}" />
     </target>
 
     <target name="db:reset"
             description="Drop database schema (drop tables) using symfony2 console utility">
-        <sfconsole command="doctrine:schema:drop" force="true"/>
+        <sfconsole command="doctrine:schema:drop --env=${env}" force="true"/>
     </target>
 
     <target name="db:fixtures"
             description="Drop database schema (drop tables) using symfony2 console utility"
             depends="db:reset,db:migrate">
-        <sfconsole command="doctrine:fixtures:load --append" dir="${app.dir}"/>
+        <sfconsole command="doctrine:fixtures:load --append --env=${env}" dir="${app.dir}"/>
     </target>
 
     <!-- ============================================  -->
